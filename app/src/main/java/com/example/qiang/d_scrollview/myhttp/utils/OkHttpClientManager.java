@@ -73,6 +73,7 @@ public class OkHttpClientManager
         //cookie enabled
         mOkHttpClient.setCookieHandler(new CookieManager(null, CookiePolicy.ACCEPT_ORIGINAL_SERVER)); //设置cookies
 
+
         //设置https
         setHttpsDelegate(context);
 
@@ -92,7 +93,7 @@ public class OkHttpClientManager
 
     }
 
-    public static OkHttpClientManager init(Context context){
+    public static OkHttpClientManager getInstance(Context context){
 
 
         if (mInstance == null)
@@ -111,15 +112,7 @@ public class OkHttpClientManager
     }
 
 
-    /****
-     *  TODO 必须要先init; 并且init是在appcliaction里面init
-     * @return
-     */
-    public static OkHttpClientManager getInstance()
-    {
 
-        return mInstance;
-    }
 
     public GetDelegate getGetDelegate()
     {
@@ -148,19 +141,19 @@ public class OkHttpClientManager
     }
 
 
-    public static DisplayImageDelegate getDisplayImageDelegate()
+    public  DisplayImageDelegate getDisplayImageDelegate()
     {
-        return getInstance()._getDisplayImageDelegate();
+        return _getDisplayImageDelegate();
     }
 
-    public static DownloadDelegate getDownloadDelegate()
+    public static DownloadDelegate getDownloadDelegate(Context context)
     {
-        return getInstance()._getDownloadDelegate();
+        return getInstance(context)._getDownloadDelegate();
     }
 
-    public static UploadDelegate getUploadDelegate()
+    public static UploadDelegate getUploadDelegate(Context context)
     {
-        return getInstance()._getUploadDelegate();
+        return getInstance(context)._getUploadDelegate();
     }
 
 
@@ -168,47 +161,47 @@ public class OkHttpClientManager
      * ============Get方便的访问方式============
      */
 
-    public static void getAsyn(String url, ResultCallback callback)
+    public static void getAsyn(Context context ,String url, ResultCallback callback)
     {
-        getInstance().getGetDelegate().getAsyn(url, callback, null);
+        getInstance(context).getGetDelegate().getAsyn(url, callback, null);
     }
 
-    public static void getAsyn(String url, ResultCallback callback, Object tag)
+    public static void getAsyn(Context context ,String url, ResultCallback callback, Object tag)
     {
-        getInstance().getGetDelegate().getAsyn(url, callback, tag);
+        getInstance(context).getGetDelegate().getAsyn(url, callback, tag);
     }
 
     /**
      * ============POST方便的访问方式===============
      */
-    public static void postAsyn(String url, Param[] params, final ResultCallback callback)
+    public static void postAsyn(Context context,String url, Param[] params, final ResultCallback callback)
     {
-        getInstance().getPostDelegate().postAsyn(url, params, callback, null);
+        getInstance(context).getPostDelegate().postAsyn(url, params, callback, null);
     }
 
-    public static void postAsyn(String url, Map<String, String> params, final ResultCallback callback)
+    public static void postAsyn(Context context,String url, Map<String, String> params, final ResultCallback callback)
     {
-        getInstance().getPostDelegate().postAsyn(url, params, callback, null);
+        getInstance(context).getPostDelegate().postAsyn(url, params, callback, null);
     }
 
-    public static void postAsyn(String url, String bodyStr, final ResultCallback callback)
+    public static void postAsyn(Context context,String url, String bodyStr, final ResultCallback callback)
     {
-        getInstance().getPostDelegate().postAsyn(url, bodyStr, callback, null);
+        getInstance(context).getPostDelegate().postAsyn(url, bodyStr, callback, null);
     }
 
-    public static void postAsyn(String url, Param[] params, final ResultCallback callback, Object tag)
+    public static void postAsyn(Context context,String url, Param[] params, final ResultCallback callback, Object tag)
     {
-        getInstance().getPostDelegate().postAsyn(url, params, callback, tag);
+        getInstance(context).getPostDelegate().postAsyn(url, params, callback, tag);
     }
 
-    public static void postAsyn(String url, Map<String, String> params, final ResultCallback callback, Object tag)
+    public static void postAsyn(Context context,String url, Map<String, String> params, final ResultCallback callback, Object tag)
     {
-        getInstance().getPostDelegate().postAsyn(url, params, callback, tag);
+        getInstance(context).getPostDelegate().postAsyn(url, params, callback, tag);
     }
 
-    public static void postAsyn(String url, String bodyStr, final ResultCallback callback, Object tag)
+    public static void postAsyn(Context context,String url, String bodyStr, final ResultCallback callback, Object tag)
     {
-        getInstance().getPostDelegate().postAsyn(url, bodyStr, callback, tag);
+        getInstance(context).getPostDelegate().postAsyn(url, bodyStr, callback, tag);
     }
 
 
@@ -347,19 +340,19 @@ public class OkHttpClientManager
         return reqBuilder.build();
     }
 
-    public static void cancelTag(Object tag)
+    public static void cancelTag(Context context,Object tag)
     {
-        getInstance()._cancelTag(tag);
+        getInstance(context)._cancelTag(context,tag);
     }
 
-    private void _cancelTag(Object tag)
+    private void _cancelTag(Context context,Object tag)
     {
         mOkHttpClient.cancel(tag);
     }
 
-    public static OkHttpClient getClinet()
+    public static OkHttpClient getClinet(Context context)
     {
-        return getInstance().client();
+        return getInstance(context).client();
     }
 
     public OkHttpClient client()

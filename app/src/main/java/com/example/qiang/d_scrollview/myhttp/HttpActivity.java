@@ -8,28 +8,18 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.qiang.d_scrollview.R;
-import com.squareup.okhttp.Interceptor;
-import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.RequestBody;
 
-import java.io.IOException;
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Type;
 import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import okio.BufferedSink;
 import retrofit.Call;
-import retrofit.CallAdapter;
 import retrofit.Callback;
 import retrofit.GsonConverterFactory;
 import retrofit.Response;
 import retrofit.Retrofit;
 import retrofit.http.GET;
-import retrofit.http.POST;
 import retrofit.http.Query;
 import retrofit.http.QueryMap;
 
@@ -76,7 +66,7 @@ public class HttpActivity extends Activity implements View.OnClickListener {
         https2OkhttpClient.makeHttps(httpClient);
 
 
-
+             /*
         httpClient.interceptors().add(new Interceptor() {
             @Override
             public com.squareup.okhttp.Response intercept(Chain chain) throws IOException {
@@ -97,6 +87,7 @@ public class HttpActivity extends Activity implements View.OnClickListener {
                 return chain.proceed(request);
             }
         });
+        */
 
 
         // Synchronous Call in Retrofit 2.0
@@ -119,8 +110,7 @@ public class HttpActivity extends Activity implements View.OnClickListener {
             public void onResponse(Response<Repo> response, Retrofit retrofit) {
 
 
-
-                Log.d(TAG, "response.isSuccess : +" + response.isSuccess()+" code ="+response.code());
+                Log.d(TAG, "response.isSuccess : +" + response.isSuccess() + " code =" + response.code());
 
                 Repo repo = response.body();
 
@@ -149,19 +139,6 @@ public class HttpActivity extends Activity implements View.OnClickListener {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://efuservice.taskmed.com.cn")
                 .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(new CallAdapter.Factory() {
-                    @Override
-                    public CallAdapter<?> get(Type returnType, Annotation[] annotations, Retrofit retrofit) {
-
-                        for (Annotation annotation : annotations) {
-
-
-                        }
-
-
-                        return null;
-                    }
-                })
                 .build();
         //retrofit.requestConverter(RequestFactory);
 
@@ -224,10 +201,10 @@ public class HttpActivity extends Activity implements View.OnClickListener {
 
     public interface APIService {
 
-        @POST("/doctor/users/stat")
+        @GET("/doctor/users/stat")
         Call<Repo> loadRepo(@Query("first_name") int page, @QueryMap() Map<String, String> baseMap);
 
-        @POST("/doctor/users/stat")
+        @GET("/doctor/users/stat")
         Call<Repo> loadRepoPost(@Query("first_name") String first, @Query("last_name") String last
         );
 

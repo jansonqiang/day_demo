@@ -68,7 +68,7 @@ public class MyRetrolambdaActivity extends Activity {
      */
     private void  testArrays(){
 
-        players.
+
 
     }
 

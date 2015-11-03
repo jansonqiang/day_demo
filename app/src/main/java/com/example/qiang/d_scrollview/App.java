@@ -4,7 +4,7 @@ import android.app.Application;
 
 import com.example.qiang.d_scrollview.myhttp.utils.OkHttpClientManager;
 
-/**
+/**app
  * Created by qiang on 2015/10/30.
  */
 public class App extends Application {

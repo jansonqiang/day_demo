@@ -12,6 +12,7 @@ import android.widget.ImageView;
 
 import com.example.qiang.d_scrollview.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -63,7 +64,7 @@ public class RxJavaActivity extends Activity implements View.OnClickListener {
 
             case R.id.but:
 
-                flatMap();
+                labQueryNoFor();
 
                 break;
 
@@ -268,7 +269,7 @@ public class RxJavaActivity extends Activity implements View.OnClickListener {
     }
 
     /**转换*/
-    private void testMap() {
+    private void testChange() {
 
 
         Observable.just(R.mipmap.ic_launcher)
@@ -295,7 +296,10 @@ public class RxJavaActivity extends Activity implements View.OnClickListener {
 
     }
 
-    private void flatMap(){
+    /***
+     * 转换 一对一
+     */
+    private void testMap(){
 
         List<Student> studentList = Student.newStudentList();
         Student[] students = studentList.toArray(new Student[studentList.size()]);
@@ -326,14 +330,133 @@ public class RxJavaActivity extends Activity implements View.OnClickListener {
                     }
                 }).subscribe(subscriber);
 
+    }
+
+    /***
+     * 1对多
+     */
+    private void fitMap(){
+
+        List<Student> studentList = Student.newStudentList();
+
+        Student[] students = studentList.toArray(new Student[studentList.size()]);
+
+        Subscriber<Student.Course> subscriber = new Subscriber<Student.Course>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(Student.Course course) {
+
+                Log.d(TAG , course.toString());
+            }
+        };
+
+        Observable.from(students)
+                .flatMap(new Func1<Student, Observable<Student.Course>>() {
+
+                    @Override
+                    public Observable<Student.Course> call(Student student) {
+                        return Observable.from(student.courses);
+                    }
+                })
+                .subscribe(subscriber);
+
+
+    }
 
 
 
+    public void labChange(){
+
+        Observable.just("Hello , world!")
+                .subscribe( s -> Log.d(TAG , s));
+
+    }
+    
+    public void labMap(){
+        
+        Observable.just("Hello , world")
+                .map(s -> s + " !!!")
+                .subscribe( s -> Log.d(TAG , s));
+
+    }
+
+    /***
+     * 多次转换
+     */
+    public void labMap2(){
+        Observable.just("htlo , world")
+                .map(s -> s.hashCode())
+                .map(i ->  Integer.toString(i))
+                .subscribe(s -> Log.d(TAG , s));
+    }
+
+    public void labQuery(){
 
 
+        query("hello work")
+                .subscribe(urls -> {
+
+                    for(String url : urls){
+
+                        Log.d(TAG ,url);
+
+                    }
+
+                });
+
+    }
 
 
+    /***
+     * 与labQuery 方法相同 但少了for
+     */
+    public void labQueryNoFor() {
 
+        query("hello wrold").subscribe(urls -> {
+
+            Observable.from(urls)
+                    .subscribe(url -> Log.d(TAG, url));
+
+        });
+
+
+    }
+
+
+    /***
+     * 与labQueryNoFor 使用了flatMap方法 , 更简洁
+     */
+    public void labFlatMap(){
+
+        query("hello work")
+                .flatMap(urls->Observable.from(urls)) //urls 转成Observable
+                .subscribe(url -> Log.d(TAG, url));
+
+    }
+
+
+    public Observable<List<String>> query(String text){
+
+        List<String> list = new ArrayList<>();
+        List<List<String>> list2 = new ArrayList<>();
+
+        for (int i = 0; i < 5; i++) {
+
+            list.add(text + i);
+
+            list2.add(new ArrayList<>(list));
+        }
+
+       return  Observable.from(list2);
 
     }
 

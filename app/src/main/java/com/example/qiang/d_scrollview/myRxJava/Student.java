@@ -8,6 +8,8 @@ import java.util.List;
  */
 public class Student {
 
+    public static final String TAG = Student.class.getSimpleName();
+
     public int id;
     public String name;
     List<Course> courses;
@@ -53,12 +55,13 @@ public class Student {
             Student student = new Student();
             student.id = i;
             student.name = "学生"+ i;
-            student.courses = courses.subList(0,i);
+            student.courses = new ArrayList<>(courses).subList(0,i);
+          //  Log.d(TAG ,  "student = "+student.name +"  "+student.courses.toString());
 
             students.add(student);
         }
 
-         return students;
+        return students;
 
 
 

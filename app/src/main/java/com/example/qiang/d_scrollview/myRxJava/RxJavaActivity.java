@@ -11,12 +11,16 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.example.qiang.d_scrollview.R;
+import com.example.qiang.d_scrollview.myhttp.HttpActivity;
+import com.squareup.okhttp.OkHttpClient;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import retrofit.JacksonConverterFactory;
+import retrofit.Retrofit;
 import rx.Observable;
 import rx.Observer;
 import rx.Subscriber;
@@ -64,7 +68,7 @@ public class RxJavaActivity extends Activity implements View.OnClickListener {
 
             case R.id.but:
 
-                labQueryNoFor();
+                labGetFrist();
 
                 break;
 
@@ -438,10 +442,47 @@ public class RxJavaActivity extends Activity implements View.OnClickListener {
     public void labFlatMap(){
 
         query("hello work")
-                .flatMap(urls->Observable.from(urls)) //urls 转成Observable
+                .flatMap(urls -> Observable.from(urls)) //urls 转成Observable
                 .subscribe(url -> Log.d(TAG, url));
 
     }
+
+
+    public void labGetFrist(){
+
+        query("hello work")
+                .flatMap(
+                        urls ->{
+                            Log.d(TAG,"urls = "+urls.toString());
+                            return  Observable.from(urls);
+                        }
+
+                        )
+                .filter(url -> Integer.parseInt(url.charAt(url.length() - 1) + "") >= 2)
+                //.take(2) //拿2个 只发两个消息
+                .doOnNext(url -> Log.d(TAG, "next 是" + url)) //在输出下一个之前刚什么
+                .subscribe(url -> Log.d(TAG, "title 是" + url)); //发送
+
+
+    }
+
+    public void androidThreadOn(){
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://efuservice.taskmed.com.cn")
+                .addConverterFactory(JacksonConverterFactory.create()) //通过这个转换成JSON
+                .addCallAdapterFactory(Rx)
+                .client(new OkHttpClient())
+                .build();
+
+
+        HttpActivity.APIService apiService = retrofit.create(HttpActivity.APIService.class);
+
+
+
+
+    }
+
 
 
     public Observable<List<String>> query(String text){
@@ -459,6 +500,8 @@ public class RxJavaActivity extends Activity implements View.OnClickListener {
        return  Observable.from(list2);
 
     }
+
+
 
 
 

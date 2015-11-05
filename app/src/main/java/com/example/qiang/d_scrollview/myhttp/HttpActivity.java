@@ -16,7 +16,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import retrofit.Call;
 import retrofit.Callback;
-import retrofit.GsonConverterFactory;
+import retrofit.JacksonConverterFactory;
 import retrofit.Response;
 import retrofit.Retrofit;
 import retrofit.http.GET;
@@ -93,7 +93,7 @@ public class HttpActivity extends Activity implements View.OnClickListener {
         // Synchronous Call in Retrofit 2.0
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://efuservice.taskmed.com.cn")
-                .addConverterFactory(GsonConverterFactory.create()) //通过这个转换成JSON
+                .addConverterFactory(JacksonConverterFactory.create()) //通过这个转换成JSON
                 .client(httpClient)
                 .build();
 
@@ -138,7 +138,7 @@ public class HttpActivity extends Activity implements View.OnClickListener {
         // Synchronous Call in Retrofit 2.0
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://efuservice.taskmed.com.cn")
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(JacksonConverterFactory.create())
                 .build();
         //retrofit.requestConverter(RequestFactory);
 

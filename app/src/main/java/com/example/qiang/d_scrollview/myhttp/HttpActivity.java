@@ -144,7 +144,8 @@ public class HttpActivity extends Activity implements View.OnClickListener {
 
         APIService apiService = retrofit.create(APIService.class);
 
-        Call<Repo> call = apiService.loadRepoPost("zhangsen", "lisi");
+
+        Call<Repo> call = apiService.loadRepoPost("zhang", "1");
 
         call.enqueue(new Callback<Repo>() {
 
@@ -155,15 +156,12 @@ public class HttpActivity extends Activity implements View.OnClickListener {
 
                 Log.d(TAG, "response.isSuccess : +" + response.isSuccess() + " code =" + response.code());
 
-                Repo repo = response.body();
 
 
 
 
 
 
-                if (repo != null)
-                    Log.d(TAG, repo.toString());
 
 
             }

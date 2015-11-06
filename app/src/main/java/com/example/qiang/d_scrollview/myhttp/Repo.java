@@ -3,7 +3,7 @@ package com.example.qiang.d_scrollview.myhttp;
 /**
  * Created by qiang on 2015/10/27.
  */
-public class Repo {
+public class Repo<U> {
 
 
     public int errCode;

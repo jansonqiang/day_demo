@@ -21,6 +21,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import retrofit.JacksonConverterFactory;
 import retrofit.Retrofit;
+import retrofit.RxJavaCallAdapterFactory;
 import rx.Observable;
 import rx.Observer;
 import rx.Subscriber;
@@ -471,7 +472,7 @@ public class RxJavaActivity extends Activity implements View.OnClickListener {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://efuservice.taskmed.com.cn")
                 .addConverterFactory(JacksonConverterFactory.create()) //通过这个转换成JSON
-                .addCallAdapterFactory(Rx)
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())//使用rxjava 作为call
                 .client(new OkHttpClient())
                 .build();
 
@@ -485,7 +486,7 @@ public class RxJavaActivity extends Activity implements View.OnClickListener {
 
 
 
-    public Observable<List<String>> query(String text){
+      public Observable<List<String>> query(String text){
 
         List<String> list = new ArrayList<>();
         List<List<String>> list2 = new ArrayList<>();

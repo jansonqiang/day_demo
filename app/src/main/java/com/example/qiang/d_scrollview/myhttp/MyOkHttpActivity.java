@@ -48,14 +48,14 @@ public class MyOkHttpActivity extends Activity {
 
 
 
-        OkHttpClientManager.getAsyn(this,"https://efuservice.taskmed.com.cn", new OkHttpClientManager.ResultCallback<Repo<U>>() {
+        OkHttpClientManager.getAsyn(this,"https://efuservice.taskmed.com.cn", new OkHttpClientManager.ResultCallback<Repo>() {
             @Override
             public void onError(Request request, Exception e) {
                 e.printStackTrace();
             }
 
             @Override
-            public void onResponse(Repo<U> response) {
+            public void onResponse(Repo response) {
 
 
 
